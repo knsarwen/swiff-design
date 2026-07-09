@@ -76,6 +76,36 @@
 
             <div class="divider"></div>
 
+            <div class="divider"></div>
+
+            <!-- Free Sandbox Mode -->
+            <div class="section-title"><i class="fa-solid fa-shapes"></i> Sandbox Screen Preview</div>
+            <div class="scenario-selector">
+                <button class="scenario-btn" onclick="enterSandbox('customer-splash')">
+                    <div class="scenario-icon"><i class="fa-solid fa-hourglass-start"></i></div>
+                    <div class="scenario-info">
+                        <span class="scenario-name">App Splash Screen</span>
+                        <span class="scenario-desc">Simulated app launching loading</span>
+                    </div>
+                </button>
+                <button class="scenario-btn" onclick="enterSandbox('customer-profile')">
+                    <div class="scenario-icon"><i class="fa-solid fa-user-gear"></i></div>
+                    <div class="scenario-info">
+                        <span class="scenario-name">Customer Profile Screen</span>
+                        <span class="scenario-desc">Mei Ling's wallet, settings, details</span>
+                    </div>
+                </button>
+                <button class="scenario-btn" onclick="enterSandbox('runner-profile')">
+                    <div class="scenario-icon"><i class="fa-solid fa-id-card-clip"></i></div>
+                    <div class="scenario-info">
+                        <span class="scenario-name">Rider/Runner Profile</span>
+                        <span class="scenario-desc">Faiz's vehicle, rating, documents</span>
+                    </div>
+                </button>
+            </div>
+
+            <div class="divider"></div>
+
             <!-- Story Progress Tracker -->
             <div class="section-title"><i class="fa-solid fa-list-check"></i> Interactive Story Flow</div>
             <div class="story-flow-steps">
@@ -307,6 +337,34 @@
                                         <textarea placeholder="Write a nice review for Faiz (optional)..." class="input-style" rows="2"></textarea>
                                         <button class="btn btn-purple btn-block" onclick="resetSimulation()"><i class="fa-solid fa-rotate-left"></i> Run Another Scenario</button>
                                     </div>
+
+                                    <!-- Customer Profile Sandbox Screen -->
+                                    <div class="profile-screen-overlay" id="customer-profile-screen" style="display: none;">
+                                        <div class="profile-header-card">
+                                            <button class="close-profile-btn" onclick="exitSandbox()">&times;</button>
+                                            <div class="profile-avatar-large">ML</div>
+                                            <h3>Mei Ling</h3>
+                                            <p>Kuala Lumpur, MY &bull; Gold Member</p>
+                                        </div>
+                                        <div class="profile-details-list">
+                                            <div class="details-item">
+                                                <span class="label">Swiff Pay Wallet</span>
+                                                <strong class="value text-purple">RM 48.50</strong>
+                                            </div>
+                                            <div class="details-item">
+                                                <span class="label">Mobile Number</span>
+                                                <strong class="value">+60 12-345 6789</strong>
+                                            </div>
+                                            <div class="details-item">
+                                                <span class="label">Primary Address</span>
+                                                <strong class="value">Level 48, Petronas Tower 2, KL</strong>
+                                            </div>
+                                        </div>
+                                        <div class="logo-badge-container">
+                                            <img src="Logo-nobackground.png" alt="Swiff Logo" class="profile-mini-logo">
+                                            <span>Secured by Swiff Identity 🛡️</span>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
 
@@ -331,6 +389,33 @@
                                 </div>
 
                                 <div class="app-body runner-body">
+                                    <!-- Runner Profile Sandbox Screen -->
+                                    <div class="profile-screen-overlay" id="runner-profile-screen" style="display: none;">
+                                        <div class="profile-header-card bg-navy text-white">
+                                            <button class="close-profile-btn text-white" onclick="exitSandbox()">&times;</button>
+                                            <div class="profile-avatar-large bg-purple">F</div>
+                                            <h3>Faiz bin Ibrahim</h3>
+                                            <p><i class="fa-solid fa-circle-check text-mint"></i> Verified Swiff Runner</p>
+                                        </div>
+                                        <div class="profile-details-list">
+                                            <div class="details-item">
+                                                <span class="label">Rating</span>
+                                                <strong class="value"><i class="fa-solid fa-star text-lime"></i> 4.9 (120 runs)</strong>
+                                            </div>
+                                            <div class="details-item">
+                                                <span class="label">Vehicle Class</span>
+                                                <strong class="value">Yamaha Y15ZR (VCB 4821)</strong>
+                                            </div>
+                                            <div class="details-item">
+                                                <span class="label">Current Active Zone</span>
+                                                <strong class="value">KLCC Micro-precinct</strong>
+                                            </div>
+                                        </div>
+                                        <div class="logo-badge-container">
+                                            <img src="Logo-nobackground.png" alt="Swiff Logo" class="profile-mini-logo">
+                                            <span>Active Onboarded Agent</span>
+                                        </div>
+                                    </div>
                                     <!-- Standard Offline/Waiting State -->
                                     <div class="runner-waiting-panel" id="runner-wait-panel">
                                         <div class="radar-circle">

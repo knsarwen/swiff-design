@@ -237,8 +237,45 @@ function hideErrandCreator() {
     document.getElementById("errand-creator").style.display = 'none';
 }
 
+// Sandbox Screen preview handler
+function enterSandbox(screenName) {
+    // Reset any active story classes
+    const steps = document.querySelectorAll(".story-step");
+    steps.forEach(st => st.classList.remove("active"));
+    
+    if (screenName === 'customer-splash') {
+        switchView('customer-app');
+        const splash = document.getElementById("customer-splash");
+        if(splash) {
+            splash.style.display = 'flex';
+            splash.style.opacity = 1;
+            // Hide after 3 seconds in sandbox mode
+            setTimeout(() => {
+                splash.style.opacity = 0;
+                setTimeout(() => { splash.style.display = 'none'; }, 500);
+            }, 3000);
+        }
+    } else if (screenName === 'customer-profile') {
+        switchView('customer-app');
+        document.getElementById("customer-profile-screen").style.display = 'flex';
+    } else if (screenName === 'runner-profile') {
+        switchView('runner-app');
+        document.getElementById("runner-profile-screen").style.display = 'flex';
+    }
+}
+
+function exitSandbox() {
+    document.getElementById("customer-profile-screen").style.display = 'none';
+    document.getElementById("runner-profile-screen").style.display = 'none';
+    updateVisuals();
+}
+
 // Story Tracker navigation
 function jumpToStep(stepIndex) {
+    // Ensure sandbox profiles are closed
+    document.getElementById("customer-profile-screen").style.display = 'none';
+    document.getElementById("runner-profile-screen").style.display = 'none';
+    
     currentStep = stepIndex;
     updateVisuals();
 }
