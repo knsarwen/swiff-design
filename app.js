@@ -414,6 +414,7 @@ function hideAllCustomPages() {
     // Hide screens Customer
     document.getElementById("customer-splash").style.display = 'none';
     document.getElementById("cust-page-login").style.display = 'none';
+    document.getElementById("cust-page-dashboard").style.display = 'none';
     document.getElementById("errand-creator").style.display = 'none';
     document.getElementById("customer-tracking").style.display = 'none';
     document.getElementById("rating-panel").style.display = 'none';
@@ -423,6 +424,10 @@ function hideAllCustomPages() {
     document.getElementById("runner-splash").style.display = 'none';
     document.getElementById("run-page-register").style.display = 'none';
     document.getElementById("run-page-deposit").style.display = 'none';
+    document.getElementById("run-page-main").style.display = 'none';
+    document.getElementById("runner-wait-panel").style.display = 'none';
+    document.getElementById("runner-job-offer").style.display = 'none';
+    document.getElementById("runner-active-job-panel").style.display = 'none';
     document.getElementById("runner-profile-screen").style.display = 'none';
     document.getElementById("runner-earnings-screen").style.display = 'none';
 }
