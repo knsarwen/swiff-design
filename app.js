@@ -216,16 +216,32 @@ function showPortalTab(tabId) {
     currentTab = tabId;
     const tabs = document.querySelectorAll(".portal-tab-content");
     tabs.forEach(t => t.classList.remove("active"));
-    document.getElementById(tabId + "-tab").classList.add("active");
+    
+    // Resolve exact HTML target IDs
+    let targetElementId = tabId + "-tab";
+    if (tabId === 'admin-dashboard') targetElementId = 'admin-dashboard-tab';
+    if (tabId === 'runner-onboard') targetElementId = 'runner-onboard-tab';
+    
+    const targetElement = document.getElementById(targetElementId);
+    if(targetElement) targetElement.classList.add("active");
 
-    const navItems = document.querySelectorAll(".nav-item");
+    const navItems = document.querySelectorAll(".portal-sidebar .nav-item");
     navItems.forEach(item => item.classList.remove("active"));
     
     // Match nav active state
-    if (tabId === 'admin-dashboard') navItems[0].classList.add("active");
-    if (tabId === 'runner-onboard') navItems[1].classList.add("active");
-    if (tabId === 'disputes-tab') navItems[2].classList.add("active");
-    if (tabId === 'analytics-tab') navItems[3].classList.add("active");
+    if (tabId === 'admin-dashboard') {
+        const el = document.getElementById("p-nav-dashboard");
+        if(el) el.classList.add("active");
+    } else if (tabId === 'runner-onboard') {
+        const el = document.getElementById("p-nav-onboard");
+        if(el) el.classList.add("active");
+    } else if (tabId === 'disputes') {
+        const el = document.getElementById("p-nav-disputes");
+        if(el) el.classList.add("active");
+    } else if (tabId === 'analytics') {
+        const el = document.getElementById("p-nav-settle");
+        if(el) el.classList.add("active");
+    }
 }
 
 // Errand form opening
@@ -387,11 +403,11 @@ function showSandboxPage(pageKey) {
             document.getElementById("current-story-desc").innerText = "Background Checks Queue: Verification status of candidate documents & uniforms.";
             break;
         case 'admin-escrow':
-            showPortalTab('disputes-tab');
+            showPortalTab('disputes');
             document.getElementById("current-story-desc").innerText = "Escrow Ledger: Security trust hold status for payments and dispute handlers.";
             break;
         case 'admin-settle':
-            showPortalTab('analytics-tab');
+            showPortalTab('analytics');
             document.getElementById("current-story-desc").innerText = "Analytics & Wallet settlements: monthly revenue splitting (80%-20%) graphs.";
             break;
     }
