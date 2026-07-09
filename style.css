@@ -868,12 +868,22 @@ body {
 .map-bg {
     position: absolute;
     inset: 0;
-    /* Simulated road map pattern using SVG background */
-    background-image: radial-gradient(circle, #cbd5e1 1px, transparent 1px),
-                      linear-gradient(to right, rgba(203, 213, 225, 0.5) 1px, transparent 1px),
-                      linear-gradient(to bottom, rgba(203, 213, 225, 0.5) 1px, transparent 1px);
-    background-size: 20px 20px;
-    background-color: #f1f5f9;
+    /* Sophisticated CSS vector map styling representing a real urban neighborhood (roads, river, blocks, and parks) */
+    background: 
+        /* Roads */
+        linear-gradient(90deg, transparent 40%, rgba(255, 255, 255, 0.9) 40%, rgba(255, 255, 255, 0.9) 48%, transparent 48%),
+        linear-gradient(90deg, transparent 70%, rgba(255, 255, 255, 0.9) 70%, rgba(255, 255, 255, 0.9) 78%, transparent 78%),
+        linear-gradient(0deg, transparent 30%, rgba(255, 255, 255, 0.9) 30%, rgba(255, 255, 255, 0.9) 38%, transparent 38%),
+        linear-gradient(0deg, transparent 65%, rgba(255, 255, 255, 0.9) 65%, rgba(255, 255, 255, 0.9) 73%, transparent 73%),
+        /* Angled Highway */
+        linear-gradient(45deg, transparent 46%, rgba(254, 240, 138, 0.9) 46%, rgba(254, 240, 138, 0.9) 50%, transparent 50%),
+        /* River */
+        linear-gradient(120deg, transparent 20%, #bae6fd 20%, #bae6fd 25%, transparent 25%),
+        /* Parks and Blocks background colors */
+        radial-gradient(circle at 10% 20%, #dcfce7 25%, transparent 25%),
+        radial-gradient(circle at 85% 80%, #dcfce7 20%, transparent 20%),
+        #e2e8f0; /* Concrete block background */
+    background-size: 100% 100%;
 }
 
 .map-pin {
