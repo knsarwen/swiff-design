@@ -35,7 +35,7 @@ body {
     background-color: #f1f1eb;
     color: var(--navy);
     height: 100vh;
-    overflow-y: auto; /* Enable outer dashboard scrolling on smaller screens */
+    overflow: hidden; /* Lock viewport scroll to keep everything in one view */
 }
 
 /* ==========================================
@@ -45,21 +45,23 @@ body {
 .workspace-container {
     display: flex;
     width: 100vw;
-    min-height: 100vh; /* Adjust from 100vh to support content height expansion */
+    height: 100vh;
 }
 
 /* Sidebar Styling */
 .sidebar {
-    width: 320px;
+    width: 310px;
+    height: 100vh;
     background-color: var(--white);
     color: var(--navy);
-    padding: 24px;
+    padding: 16px 20px;
     display: flex;
     flex-direction: column;
     z-index: 10;
     box-shadow: 4px 0 20px rgba(2, 6, 23, 0.05);
     border-right: 1px solid var(--light-gray);
     flex-shrink: 0;
+    overflow-y: auto; /* Allow scroll inside sidebar if needed, keeping frame static */
 }
 
 .brand-section {
@@ -689,12 +691,14 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    min-height: 700px;
+    min-height: 520px;
+    transform: scale(0.9); /* Scale mockup down slightly to fit standard screen heights */
+    transform-origin: center;
 }
 
 .iphone-mockup {
-    width: 360px;
-    height: 680px;
+    width: 330px;
+    height: 610px;
     background-color: var(--navy);
     border-radius: 40px;
     padding: 10px;
@@ -1633,9 +1637,9 @@ body {
 .web-portal-frame {
     display: flex;
     flex-direction: column;
-    width: 90%;
+    width: 95%;
     max-width: 1050px;
-    height: 600px;
+    height: 520px; /* Scaled down from 600px to avoid viewport scrollbar */
     background-color: var(--white);
     border-radius: 12px;
     box-shadow: var(--shadow-lg);
