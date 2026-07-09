@@ -1463,10 +1463,7 @@ body {
     display: flex;
     flex-direction: column;
     gap: 12px;
-    position: absolute;
-    bottom: 16px;
-    left: 16px;
-    right: 16px;
+    margin: 10px 0;
     z-index: 50;
     animation: slideUp 0.3s ease-out;
 }
