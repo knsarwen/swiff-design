@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Swiff - Interactive Hyperlocal Prototype</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- App Workspace -->
+    <div class="workspace-container">
+        
+        <!-- Sidebar Control Panel -->
+        <aside class="sidebar">
+            <div class="brand-section">
+                <img src="Logo-nobackground.png" alt="Swiff Logo" class="brand-logo">
+                <div class="brand-text">
+                    <span class="brand-title">Swiff</span>
+                    <span class="brand-tagline">Urban Assistant</span>
+                </div>
+            </div>
+
+            <div class="divider"></div>
+
+            <!-- Simulation Controls -->
+            <div class="section-title"><i class="fa-solid fa-play-circle"></i> Simulation Scenario</div>
+            <div class="scenario-selector">
+                <button class="scenario-btn active" onclick="setScenario('coffee')">
+                    <div class="scenario-icon"><i class="fa-solid fa-mug-hot"></i></div>
+                    <div class="scenario-info">
+                        <span class="scenario-name">KLCC Coffee Run</span>
+                        <span class="scenario-desc">Faiz picks up Kopi for Mei Ling</span>
+                    </div>
+                </button>
+                <button class="scenario-btn" onclick="setScenario('document')">
+                    <div class="scenario-icon"><i class="fa-solid fa-file-invoice"></i></div>
+                    <div class="scenario-info">
+                        <span class="scenario-name">Bangsar Office Delivery</span>
+                        <span class="scenario-desc">Urgent legal docs to South Tower</span>
+                    </div>
+                </button>
+                <button class="scenario-btn" onclick="setScenario('pharmacy')">
+                    <div class="scenario-icon"><i class="fa-solid fa-prescription-bottle-medical"></i></div>
+                    <div class="scenario-info">
+                        <span class="scenario-name">Cyberjaya Panadol Grab</span>
+                        <span class="scenario-desc">Instant delivery to office runner</span>
+                    </div>
+                </button>
+            </div>
+
+            <div class="divider"></div>
+
+            <!-- View Switcher -->
+            <div class="section-title"><i class="fa-solid fa-display"></i> Device & Frame Switcher</div>
+            <div class="view-switcher-group">
+                <button class="view-switch-btn active" id="btn-view-customer" onclick="switchView('customer-app')">
+                    <i class="fa-solid fa-mobile-screen-button"></i>
+                    <span>Customer App</span>
+                </button>
+                <button class="view-switch-btn" id="btn-view-runner" onclick="switchView('runner-app')">
+                    <i class="fa-solid fa-bicycle"></i>
+                    <span>Runner App</span>
+                </button>
+                <button class="view-switch-btn" id="btn-view-admin" onclick="switchView('admin-portal')">
+                    <i class="fa-solid fa-chart-line"></i>
+                    <span>Admin Web</span>
+                </button>
+            </div>
+
+            <div class="divider"></div>
+
+            <!-- Story Progress Tracker -->
+            <div class="section-title"><i class="fa-solid fa-list-check"></i> Interactive Story Flow</div>
+            <div class="story-flow-steps">
+                <div class="story-step active" id="step-0" onclick="jumpToStep(0)">
+                    <div class="step-num">1</div>
+                    <div class="step-details">
+                        <span class="step-title">Runner Verification</span>
+                        <span class="step-desc">Onboard Faiz on Admin Portal</span>
+                    </div>
+                </div>
+                <div class="story-step" id="step-1" onclick="jumpToStep(1)">
+                    <div class="step-num">2</div>
+                    <div class="step-details">
+                        <span class="step-title">Place Errand Request</span>
+                        <span class="step-desc">Create hyperlocal order</span>
+                    </div>
+                </div>
+                <div class="story-step" id="step-2" onclick="jumpToStep(2)">
+                    <div class="step-num">3</div>
+                    <div class="step-details">
+                        <span class="step-title">Runner Matches Job</span>
+                        <span class="step-desc">Faiz accepts on Runner App</span>
+                    </div>
+                </div>
+                <div class="story-step" id="step-3" onclick="jumpToStep(3)">
+                    <div class="step-num">3+</div>
+                    <div class="step-details">
+                        <span class="step-title">Active Fulfilment</span>
+                        <span class="step-desc">Faiz purchases and commutes</span>
+                    </div>
+                </div>
+                <div class="story-step" id="step-4" onclick="jumpToStep(4)">
+                    <div class="step-num">4</div>
+                    <div class="step-details">
+                        <span class="step-title">Delivery & Release</span>
+                        <span class="step-desc">Mei Ling confirms; payout split</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sidebar-footer">
+                <p>Designed for Malaysian Cities 🇲🇾</p>
+                <p>Urban Pulse Premium Theme</p>
+            </div>
+        </aside>
+
+        <!-- Main Preview Canvas -->
+        <main class="preview-canvas">
+            <div class="canvas-header">
+                <div class="header-story-banner">
+                    <span class="badge badge-lime" id="live-indicator"><i class="fa-solid fa-circle-play"></i> LIVE SIMULATOR</span>
+                    <h2 id="current-story-title">Step 1: Runner Onboarding & Verification</h2>
+                    <p id="current-story-desc">Faiz has submitted his ID card and vehicle license. Let's verify him so he can go online.</p>
+                </div>
+                <div class="canvas-actions">
+                    <button class="btn btn-navy" onclick="prevStep()"><i class="fa-solid fa-arrow-left"></i> Back</button>
+                    <button class="btn btn-purple" id="btn-next-action" onclick="nextStep()">Onboard Runner <i class="fa-solid fa-arrow-right"></i></button>
+                </div>
+            </div>
+
+            <div class="frame-viewport">
+
+                <!-- 1. Mobile Phone Mockup Frame -->
+                <div class="phone-frame-wrapper" id="phone-view-container">
+                    <div class="iphone-mockup">
+                        <div class="iphone-speaker"></div>
+                        <div class="iphone-screen">
+                            <!-- Mobile App Status Bar -->
+                            <div class="phone-status-bar">
+                                <span class="time">14:08</span>
+                                <div class="icons">
+                                    <i class="fa-solid fa-wifi"></i>
+                                    <i class="fa-solid fa-battery-three-quarters"></i>
+                                </div>
+                            </div>
+
+                            <!-- PHONE VIEW CONTENT: CUSTOMER APP -->
+                            <div class="phone-app-content active" id="customer-app-screen">
+                                <!-- Splash Screen Overlay (Initial) -->
+                                <div class="app-splash" id="customer-splash">
+                                    <img src="Logo-nobackground.png" alt="Swiff Logo" class="splash-logo">
+                                    <div class="splash-title">Swiff</div>
+                                    <div class="splash-sub">Instant Urban Assistant</div>
+                                    <div class="spinner"></div>
+                                </div>
+
+                                <!-- Main Customer UI -->
+                                <div class="app-header">
+                                    <div class="user-greeting">
+                                        <span class="greet">Hi, Mei Ling 👋</span>
+                                        <span class="location"><i class="fa-solid fa-location-dot"></i> Suria KLCC, Level 3</span>
+                                    </div>
+                                    <div class="wallet-pill">
+                                        <i class="fa-solid fa-wallet"></i> RM 48.50
+                                    </div>
+                                </div>
+
+                                <div class="app-body">
+                                    <!-- Dynamic Action Cards -->
+                                    <div class="promo-banner">
+                                        <div class="promo-text">
+                                            <h4>Need coffee or a quick run?</h4>
+                                            <p>Verified Swiff runners are standing by in your building right now.</p>
+                                        </div>
+                                        <span class="promo-badge"><i class="fa-solid fa-bolt"></i> 8 mins</span>
+                                    </div>
+
+                                    <div class="services-grid">
+                                        <button class="service-card" onclick="selectService('buy')">
+                                            <div class="service-icon purple"><i class="fa-solid fa-basket-shopping"></i></div>
+                                            <span>Buy For Me</span>
+                                        </button>
+                                        <button class="service-card" onclick="selectService('pickup')">
+                                            <div class="service-icon mint"><i class="fa-solid fa-box-open"></i></div>
+                                            <span>Pick & Drop</span>
+                                        </button>
+                                        <button class="service-card" onclick="selectService('office')">
+                                            <div class="service-icon navy"><i class="fa-solid fa-paperclip"></i></div>
+                                            <span>Office Run</span>
+                                        </button>
+                                        <button class="service-card" onclick="selectService('other')">
+                                            <div class="service-icon lime"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
+                                            <span>Custom Task</span>
+                                        </button>
+                                    </div>
+
+                                    <!-- Selected Service Errand Creator Form -->
+                                    <div class="errand-form-card" id="errand-creator">
+                                        <div class="form-title">
+                                            <span id="form-action-type">Buy For Me</span>
+                                            <button class="close-form" onclick="hideErrandCreator()">&times;</button>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Pickup Location</label>
+                                            <input type="text" id="errand-pickup" class="input-style" value="Starbucks, Concourse Floor, Suria KLCC">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Drop-off / Delivery Desk</label>
+                                            <input type="text" id="errand-dropoff" class="input-style" value="Petronas Twin Tower 2, Level 48 Desk A">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Item details / Special Instructions</label>
+                                            <input type="text" id="errand-detail" class="input-style" value="1x Grande Iced Caramel Macchiato (Less Sweet)">
+                                        </div>
+                                        <div class="price-estimate-row">
+                                            <div class="fee-estimate">
+                                                <span class="fee-label">Est. Fulfillment Fee</span>
+                                                <span class="fee-value" id="fee-display">RM 8.00</span>
+                                            </div>
+                                            <div class="payout-split">
+                                                <span>Runner earns 80%:</span>
+                                                <strong id="runner-earns-display">RM 6.40</strong>
+                                            </div>
+                                        </div>
+                                        <button class="btn btn-block btn-purple" onclick="simulatePlaceOrder()"><i class="fa-solid fa-shield-halved"></i> Hold RM 8.00 & Request</button>
+                                    </div>
+
+                                    <!-- Tracking Screen (Hidden Initially) -->
+                                    <div class="tracking-screen" id="customer-tracking">
+                                        <div class="status-header">
+                                            <div class="status-dot-pulse"></div>
+                                            <span id="tracking-status-text">Searching for nearby runners...</span>
+                                        </div>
+                                        
+                                        <!-- Simulated Live Map -->
+                                        <div class="sim-map" id="customer-map">
+                                            <div class="map-bg"></div>
+                                            <div class="map-pin pin-customer" style="top: 35%; left: 60%;"><i class="fa-solid fa-location-crosshairs"></i></div>
+                                            <div class="map-pin pin-store" style="top: 70%; left: 30%;"><i class="fa-solid fa-shop"></i></div>
+                                            <div class="map-pin pin-runner" id="cust-map-runner" style="top: 85%; left: 15%; display: none;"><i class="fa-solid fa-bicycle"></i></div>
+                                            <svg class="map-route-line" id="cust-route-svg">
+                                                <path d="M 90 210 Q 120 150 180 105" fill="none" stroke="#6D28D9" stroke-width="4" stroke-dasharray="8,6" style="display:none;" id="route-path-cust" />
+                                            </svg>
+                                        </div>
+
+                                        <div class="runner-profile-card" id="customer-runner-card" style="display:none;">
+                                            <div class="runner-avatar-wrapper">
+                                                <div class="runner-avatar">F</div>
+                                                <div class="runner-badge-verified"><i class="fa-solid fa-circle-check"></i></div>
+                                            </div>
+                                            <div class="runner-name-section">
+                                                <h5 id="cust-runner-name">Faiz (Verified Swiff Runner)</h5>
+                                                <p id="cust-runner-rating"><i class="fa-solid fa-star text-lime"></i> 4.9 (120 runs) &bull; Uniformed</p>
+                                            </div>
+                                            <div class="chat-shortcut">
+                                                <button class="btn-icon-chat" onclick="openChat()"><i class="fa-solid fa-comment-dots"></i></button>
+                                            </div>
+                                        </div>
+
+                                        <div class="chat-container-popup" id="customer-chat" style="display: none;">
+                                            <div class="chat-header">
+                                                <span>Chat with Faiz</span>
+                                                <button onclick="closeChat()">&times;</button>
+                                            </div>
+                                            <div class="chat-messages" id="chat-messages-box">
+                                                <div class="message msg-runner">Hello! I'm already inside Suria KLCC. Picking up your coffee now.</div>
+                                            </div>
+                                            <div class="chat-input-bar">
+                                                <input type="text" placeholder="Reply to Faiz..." id="chat-input-field">
+                                                <button onclick="sendChatMessage()"><i class="fa-solid fa-paper-plane"></i></button>
+                                            </div>
+                                        </div>
+
+                                        <div class="payment-hold-banner">
+                                            <i class="fa-solid fa-lock text-mint"></i>
+                                            <div class="payment-hold-text">
+                                                <strong>Payment held securely by Swiff</strong>
+                                                <span>Funds will only release when you confirm receipt.</span>
+                                            </div>
+                                        </div>
+
+                                        <div class="action-release-box" id="release-payment-container" style="display:none;">
+                                            <button class="btn btn-block btn-mint" onclick="confirmRelease()"><i class="fa-solid fa-check-circle"></i> Confirm Delivery & Release Payout</button>
+                                        </div>
+                                    </div>
+
+                                    <!-- Rating / Job Done Screen -->
+                                    <div class="rating-screen" id="rating-panel" style="display: none;">
+                                        <div class="rating-success-icon"><i class="fa-solid fa-circle-check"></i></div>
+                                        <h3>Task Completed!</h3>
+                                        <p>RM 8.00 payout released (RM 6.40 to Faiz, RM 1.60 to Swiff platform).</p>
+                                        <div class="stars-row">
+                                            <i class="fa-solid fa-star rated"></i>
+                                            <i class="fa-solid fa-star rated"></i>
+                                            <i class="fa-solid fa-star rated"></i>
+                                            <i class="fa-solid fa-star rated"></i>
+                                            <i class="fa-solid fa-star rated"></i>
+                                        </div>
+                                        <textarea placeholder="Write a nice review for Faiz (optional)..." class="input-style" rows="2"></textarea>
+                                        <button class="btn btn-purple btn-block" onclick="resetSimulation()"><i class="fa-solid fa-rotate-left"></i> Run Another Scenario</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- PHONE VIEW CONTENT: RUNNER APP -->
+                            <div class="phone-app-content" id="runner-app-screen">
+                                <!-- Splash Screen Overlay -->
+                                <div class="app-splash" id="runner-splash" style="display: none;">
+                                    <img src="Logo-nobackground.png" alt="Swiff Logo" class="splash-logo">
+                                    <div class="splash-title">Swiff Driver</div>
+                                    <div class="splash-sub">Fulfillment Partner App</div>
+                                    <div class="spinner"></div>
+                                </div>
+
+                                <div class="app-header bg-navy">
+                                    <div class="user-greeting text-white">
+                                        <span class="greet text-gray">Welcome back,</span>
+                                        <span class="location text-white"><i class="fa-solid fa-circle text-lime"></i> Faiz (Online)</span>
+                                    </div>
+                                    <div class="wallet-pill">
+                                        <i class="fa-solid fa-coins text-lime"></i> RM 142.00
+                                    </div>
+                                </div>
+
+                                <div class="app-body runner-body">
+                                    <!-- Standard Offline/Waiting State -->
+                                    <div class="runner-waiting-panel" id="runner-wait-panel">
+                                        <div class="radar-circle">
+                                            <div class="pulse-ring"></div>
+                                            <i class="fa-solid fa-bicycle"></i>
+                                        </div>
+                                        <h4>Waiting for nearby requests...</h4>
+                                        <p>Position yourself inside dense office tower lobbies for maximum orders.</p>
+                                        <div class="today-stats">
+                                            <div class="stat-col">
+                                                <span>Completed</span>
+                                                <strong>6 Runs</strong>
+                                            </div>
+                                            <div class="stat-col">
+                                                <span>Today Earnings</span>
+                                                <strong>RM 58.40</strong>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Job Offer Sheet -->
+                                    <div class="job-offer-sheet" id="runner-job-offer" style="display: none;">
+                                        <div class="offer-header">
+                                            <span class="offer-title">NEW NEARBY ERAND</span>
+                                            <span class="offer-timer" id="offer-timer-val">15s</span>
+                                        </div>
+                                        <div class="offer-details">
+                                            <div class="offer-point">
+                                                <i class="fa-solid fa-location-pin text-purple"></i>
+                                                <div>
+                                                    <label>PICKUP</label>
+                                                    <span id="job-pickup-name">Starbucks, Suria KLCC</span>
+                                                </div>
+                                            </div>
+                                            <div class="offer-point">
+                                                <i class="fa-solid fa-location-dot text-mint"></i>
+                                                <div>
+                                                    <label>DELIVER TO</label>
+                                                    <span id="job-dropoff-name">Tower 2, Level 48 Desk A</span>
+                                                </div>
+                                            </div>
+                                            <div class="offer-item">
+                                                <i class="fa-solid fa-box-open text-gray"></i>
+                                                <span id="job-item-name">1x Grande Iced Caramel Macchiato</span>
+                                            </div>
+                                        </div>
+                                        <div class="offer-price-row">
+                                            <div class="price-info">
+                                                <span class="price-lbl">Your Payout (80%)</span>
+                                                <span class="price-val" id="runner-job-payout">RM 6.40</span>
+                                            </div>
+                                            <div class="dist-info">
+                                                <span>Distance:</span>
+                                                <strong>&lt; 300 meters</strong>
+                                            </div>
+                                        </div>
+                                        <div class="offer-actions">
+                                            <button class="btn btn-gray" onclick="declineJob()">Decline</button>
+                                            <button class="btn btn-purple" onclick="acceptJob()"><i class="fa-solid fa-check"></i> Accept & Start</button>
+                                        </div>
+                                    </div>
+
+                                    <!-- Active Job View -->
+                                    <div class="runner-active-job" id="runner-active-job-panel" style="display: none;">
+                                        <div class="active-status-bar">
+                                            <span class="badge badge-purple" id="runner-step-badge">1. GO TO PICKUP</span>
+                                            <span class="job-timer"><i class="fa-solid fa-clock"></i> 8 mins left</span>
+                                        </div>
+
+                                        <div class="sim-map" id="runner-map">
+                                            <div class="map-bg"></div>
+                                            <div class="map-pin pin-customer" style="top: 35%; left: 60%;"><i class="fa-solid fa-location-crosshairs"></i></div>
+                                            <div class="map-pin pin-store" style="top: 70%; left: 30%;"><i class="fa-solid fa-shop"></i></div>
+                                            <div class="map-pin pin-runner" id="run-map-runner" style="top: 85%; left: 15%;"><i class="fa-solid fa-bicycle"></i></div>
+                                        </div>
+
+                                        <div class="job-actions-card">
+                                            <div class="action-info">
+                                                <h5 id="runner-action-title">Collect Item from Starbucks</h5>
+                                                <p id="runner-action-desc">Verify order name: "Mei Ling #48"</p>
+                                            </div>
+                                            <button class="btn btn-block btn-navy" id="runner-action-button" onclick="nextRunnerStage()">Order Collected</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. Web Portal Mockup Frame -->
+                <div class="web-portal-frame" id="web-portal-container" style="display: none;">
+                    <div class="macbook-header">
+                        <div class="dots">
+                            <span class="dot red"></span>
+                            <span class="dot yellow"></span>
+                            <span class="dot green"></span>
+                        </div>
+                        <div class="address-bar">
+                            <i class="fa-solid fa-lock"></i> admin.swiff.my/dashboard
+                        </div>
+                    </div>
+                    
+                    <div class="portal-body">
+                        <!-- Portal Sidebar -->
+                        <aside class="portal-sidebar">
+                            <div class="logo-area">
+                                <img src="Logo-nobackground.png" alt="Swiff Logo" class="portal-logo">
+                                <span>Swiff Admin</span>
+                            </div>
+                            <nav class="portal-nav">
+                                <a href="#" class="nav-item active" onclick="showPortalTab('admin-dashboard')"><i class="fa-solid fa-chart-pie"></i> Real-time Map</a>
+                                <a href="#" class="nav-item" onclick="showPortalTab('runner-onboard')"><i class="fa-solid fa-id-card"></i> Onboarding Queue <span class="badge badge-lime badge-sm" id="badge-onboard-count">1</span></a>
+                                <a href="#" class="nav-item" onclick="showPortalTab('disputes-tab')"><i class="fa-solid fa-scale-balanced"></i> Disputes & Safety</a>
+                                <a href="#" class="nav-item" onclick="showPortalTab('analytics-tab')"><i class="fa-solid fa-wallet"></i> Wallet Settlements</a>
+                            </nav>
+                        </aside>
+
+                        <!-- Portal Main View Workspace -->
+                        <main class="portal-content">
+                            <!-- TAB A: REAL-TIME MAP & CONTROL -->
+                            <div class="portal-tab-content active" id="admin-dashboard-tab">
+                                <div class="portal-title-row">
+                                    <h3>Hyperlocal Command Dashboard</h3>
+                                    <div class="live-pulse"><span class="dot-pulse-mint"></span> Live system updates</div>
+                                </div>
+
+                                <div class="stats-cards-row">
+                                    <div class="p-card">
+                                        <span class="lbl">Active Zones</span>
+                                        <strong class="val">8 Zones</strong>
+                                        <span class="trend text-mint"><i class="fa-solid fa-arrow-trend-up"></i> KLCC & Bangsar South Dense</span>
+                                    </div>
+                                    <div class="p-card">
+                                        <span class="lbl">Online Runners</span>
+                                        <strong class="val" id="admin-online-runners">34</strong>
+                                        <span class="trend text-gray"><i class="fa-solid fa-circle"></i> 90% utilization</span>
+                                    </div>
+                                    <div class="p-card">
+                                        <span class="lbl">Held Payments Escrow</span>
+                                        <strong class="val" id="admin-held-escrow">RM 1,245.50</strong>
+                                        <span class="trend text-mint"><i class="fa-solid fa-lock"></i> 100% Secured</span>
+                                    </div>
+                                    <div class="p-card">
+                                        <span class="lbl">Runner Payout Share</span>
+                                        <strong class="val">80.0%</strong>
+                                        <span class="trend text-lime"><i class="fa-solid fa-circle-check"></i> Standard Rate</span>
+                                    </div>
+                                </div>
+
+                                <div class="map-table-grid">
+                                    <!-- Central Tracking Map -->
+                                    <div class="portal-box map-box">
+                                        <div class="box-header">
+                                            <span>Simulated Live Dispatch Map (Micro-Zone View)</span>
+                                            <span class="badge badge-navy">Zone: KLCC Precinct</span>
+                                        </div>
+                                        <div class="portal-large-map">
+                                            <div class="map-bg"></div>
+                                            <div class="map-pin pin-customer" style="top: 35%; left: 60%;"><i class="fa-solid fa-location-crosshairs"></i></div>
+                                            <div class="map-pin pin-store" style="top: 70%; left: 30%;"><i class="fa-solid fa-shop"></i></div>
+                                            <div class="map-pin pin-runner" id="admin-map-runner" style="top: 85%; left: 15%;"><i class="fa-solid fa-bicycle"></i></div>
+                                            <div class="live-track-overlay">
+                                                <strong>Current Match State:</strong>
+                                                <p id="admin-match-state-text">No active job simulated yet. Go to Scenario 1 to start.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Active Task Logs -->
+                                    <div class="portal-box logs-box">
+                                        <div class="box-header">
+                                            <span>Active Micro-Errands</span>
+                                        </div>
+                                        <div class="logs-container">
+                                            <table class="logs-table">
+                                                <thead>
+                                                    <tr>
+                                                        <th>ID</th>
+                                                        <th>Customer</th>
+                                                        <th>Runner</th>
+                                                        <th>Type</th>
+                                                        <th>Status</th>
+                                                        <th>Escrow</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="admin-tasks-tbody">
+                                                    <tr>
+                                                        <td>#786-01</td>
+                                                        <td>Syahirah</td>
+                                                        <td>Karthik</td>
+                                                        <td>Office Run</td>
+                                                        <td><span class="badge badge-mint badge-sm">Delivered</span></td>
+                                                        <td>RM 12.00</td>
+                                                    </tr>
+                                                    <tr id="active-sim-task-row" style="display: none;">
+                                                        <td>#786-02</td>
+                                                        <td>Mei Ling</td>
+                                                        <td id="table-runner-name">Unassigned</td>
+                                                        <td id="table-task-type">Buy For Me</td>
+                                                        <td><span class="badge badge-lime badge-sm" id="table-task-status">Matching</span></td>
+                                                        <td id="table-task-fee">RM 8.00</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- TAB B: RUNNER ONBOARDING & VERIFICATION QUEUE -->
+                            <div class="portal-tab-content" id="runner-onboard-tab">
+                                <div class="portal-title-row">
+                                    <h3>Runner Verification Queue</h3>
+                                    <span class="badge badge-purple" id="pending-runner-title-badge">1 Application Pending</span>
+                                </div>
+
+                                <div class="onboard-detail-card" id="onboard-card-container">
+                                    <div class="runner-applicant-header">
+                                        <div class="applicant-avatar">F</div>
+                                        <div class="applicant-info">
+                                            <h4>Faiz bin Ibrahim</h4>
+                                            <p>Applied: Today, 11:30 AM &bull; Zone: KLCC Precinct</p>
+                                        </div>
+                                        <div class="applicant-status">
+                                            <span class="badge badge-purple" id="applicant-status-label">PENDING VERIFICATION</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="onboard-grid">
+                                        <!-- Document Reviews -->
+                                        <div class="onboard-section">
+                                            <h5>1. Document Check</h5>
+                                            <div class="doc-item">
+                                                <div class="doc-icon"><i class="fa-solid fa-id-card"></i></div>
+                                                <div class="doc-text">
+                                                    <strong>NRIC (Identity Card)</strong>
+                                                    <span>Verified Malaysian Citizen</span>
+                                                </div>
+                                                <div class="doc-check text-mint"><i class="fa-solid fa-circle-check"></i> OK</div>
+                                            </div>
+                                            <div class="doc-item">
+                                                <div class="doc-icon"><i class="fa-solid fa-file-invoice"></i></div>
+                                                <div class="doc-text">
+                                                    <strong>PDRM Criminal Background Check</strong>
+                                                    <span>No records found</span>
+                                                </div>
+                                                <div class="doc-check text-mint"><i class="fa-solid fa-circle-check"></i> OK</div>
+                                            </div>
+                                            <div class="doc-item">
+                                                <div class="doc-icon"><i class="fa-solid fa-motorcycle"></i></div>
+                                                <div class="doc-text">
+                                                    <strong>Class L/D Driving License</strong>
+                                                    <span>Valid until 2028</span>
+                                                </div>
+                                                <div class="doc-check text-mint"><i class="fa-solid fa-circle-check"></i> OK</div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Training Status -->
+                                        <div class="onboard-section">
+                                            <h5>2. Training & Onboarding status</h5>
+                                            <div class="onboard-progress-item">
+                                                <div class="progress-info">
+                                                    <span>SOP Training Module Completed</span>
+                                                    <strong>100%</strong>
+                                                </div>
+                                                <div class="progress-bar-container">
+                                                    <div class="progress-fill" style="width: 100%;"></div>
+                                                </div>
+                                            </div>
+                                            <div class="onboard-progress-item">
+                                                <div class="progress-info">
+                                                    <span>Swiff Runner Uniform Collected</span>
+                                                    <strong>Collected</strong>
+                                                </div>
+                                                <div class="progress-bar-container">
+                                                    <div class="progress-fill fill-mint" style="width: 100%;"></div>
+                                                </div>
+                                            </div>
+                                            <div class="deposit-status">
+                                                <i class="fa-solid fa-circle-info text-purple"></i>
+                                                <div>
+                                                    <strong>Uniform & Bag Deposit paid</strong>
+                                                    <span>RM 50.00 held securely</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="applicant-actions">
+                                        <button class="btn btn-gray" onclick="rejectApplicant()"><i class="fa-solid fa-circle-xmark"></i> Decline Application</button>
+                                        <button class="btn btn-lime" onclick="approveApplicant()"><i class="fa-solid fa-circle-check"></i> Approve & Onboard Runner</button>
+                                    </div>
+                                </div>
+
+                                <div class="empty-state" id="onboard-empty-state" style="display: none;">
+                                    <i class="fa-solid fa-face-smile text-lime"></i>
+                                    <h4>Verification Queue Clear!</h4>
+                                    <p>All active runner applications have been processed and onboarded.</p>
+                                </div>
+                            </div>
+
+                            <!-- TAB C: DISPUTE & ESCROW SYSTEM -->
+                            <div class="portal-tab-content" id="disputes-tab">
+                                <div class="portal-title-row">
+                                    <h3>Escrow Hold & Dispute Center</h3>
+                                    <span class="badge badge-navy">Secure Gateway</span>
+                                </div>
+                                <div class="portal-box">
+                                    <div class="box-header">Active Trust Holds</div>
+                                    <div class="logs-container">
+                                        <table class="logs-table">
+                                            <thead>
+                                                <tr>
+                                                    <th>Transaction ID</th>
+                                                    <th>From Customer</th>
+                                                    <th>To Runner</th>
+                                                    <th>Amount</th>
+                                                    <th>Escrow Status</th>
+                                                    <th>Actions</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>#TXN-9021</td>
+                                                    <td>Mei Ling</td>
+                                                    <td>Faiz</td>
+                                                    <td>RM 8.00</td>
+                                                    <td><span class="badge badge-purple badge-sm" id="escrow-status-txn">Awaiting customer confirm</span></td>
+                                                    <td><button class="btn btn-navy btn-sm" onclick="alert('Admin can manually intervene in case of delivery disputes.')">Manual Release</button></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>#TXN-9019</td>
+                                                    <td>Syahirah</td>
+                                                    <td>Karthik</td>
+                                                    <td>RM 12.00</td>
+                                                    <td><span class="badge badge-mint badge-sm">Released to Runner</span></td>
+                                                    <td><button class="btn btn-gray btn-sm" disabled>None</button></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- TAB D: ANALYTICS -->
+                            <div class="portal-tab-content" id="analytics-tab">
+                                <div class="portal-title-row">
+                                    <h3>Wallet Settlement Summary</h3>
+                                </div>
+                                <div class="analytics-row">
+                                    <div class="analytic-panel">
+                                        <h5>Revenue Split (Current Month)</h5>
+                                        <div class="split-comparison">
+                                            <div class="split-col-runner">
+                                                <strong>80% Payout Share</strong>
+                                                <span>Sent directly to runner bank account / e-wallet</span>
+                                                <span class="amount-val">RM 4,892.40</span>
+                                            </div>
+                                            <div class="split-col-platform">
+                                                <strong>20% Swiff Commision</strong>
+                                                <span>Retained for operations, support, and insurance</span>
+                                                <span class="amount-val text-purple">RM 1,223.10</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </main>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <!-- Clickable Interactive JS -->
+    <script src="app.js"></script>
+</body>
+</html>
