@@ -35,7 +35,7 @@ body {
     background-color: #f1f1eb;
     color: var(--navy);
     height: 100vh;
-    overflow: hidden;
+    overflow-y: auto; /* Enable outer dashboard scrolling on smaller screens */
 }
 
 /* ==========================================
@@ -45,7 +45,7 @@ body {
 .workspace-container {
     display: flex;
     width: 100vw;
-    height: 100vh;
+    min-height: 100vh; /* Adjust from 100vh to support content height expansion */
 }
 
 /* Sidebar Styling */
@@ -59,6 +59,7 @@ body {
     z-index: 10;
     box-shadow: 4px 0 20px rgba(2, 6, 23, 0.05);
     border-right: 1px solid var(--light-gray);
+    flex-shrink: 0;
 }
 
 .brand-section {
@@ -549,6 +550,7 @@ body {
     align-items: center;
     justify-content: space-between;
     box-shadow: var(--shadow-sm);
+    flex-shrink: 0;
 }
 
 .header-story-banner {
@@ -679,7 +681,7 @@ body {
     align-items: center;
     justify-content: center;
     padding: 20px;
-    overflow: hidden;
+    overflow-y: auto; /* Enable viewport scrolling if preview screen expands */
 }
 
 /* iPhone Wrapper */
@@ -687,7 +689,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 100%;
+    min-height: 700px;
 }
 
 .iphone-mockup {
@@ -701,6 +703,7 @@ body {
     border: 4px solid #1e293b;
     display: flex;
     flex-direction: column;
+    flex-shrink: 0;
 }
 
 .iphone-speaker {
@@ -735,8 +738,9 @@ body {
     font-size: 11px;
     font-weight: 600;
     color: var(--navy);
-    background-color: transparent;
-    z-index: 10;
+    background-color: var(--white);
+    z-index: 15;
+    border-bottom: 1px solid var(--light-gray);
 }
 
 .phone-status-bar .icons {
@@ -750,7 +754,8 @@ body {
     flex-direction: column;
     flex-grow: 1;
     position: relative;
-    overflow: hidden;
+    overflow-y: auto; /* Enable scrolling for full page layouts */
+    height: calc(100% - 28px);
 }
 
 .phone-app-content.active {
