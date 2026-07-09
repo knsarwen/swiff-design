@@ -1695,11 +1695,12 @@ body {
 /* Portal Sidebar */
 .portal-sidebar {
     width: 220px;
-    background-color: var(--navy);
-    color: var(--white);
+    background-color: var(--white);
+    color: var(--navy);
     display: flex;
     flex-direction: column;
     padding: 20px 10px;
+    border-right: 1px solid var(--light-gray);
 }
 
 .logo-area {
@@ -1710,6 +1711,7 @@ body {
     font-family: var(--font-heading);
     font-weight: 700;
     font-size: 16px;
+    color: var(--navy);
 }
 
 .portal-logo {
@@ -1729,7 +1731,7 @@ body {
     align-items: center;
     gap: 10px;
     padding: 10px 14px;
-    color: var(--light-gray);
+    color: var(--slate);
     text-decoration: none;
     font-size: 12px;
     font-weight: 500;
@@ -1738,17 +1740,17 @@ body {
 }
 
 .nav-item:hover {
-    background-color: rgba(255, 255, 255, 0.05);
+    background-color: var(--off-white);
 }
 
 .nav-item.active {
     background-color: var(--purple-light);
-    color: var(--white);
-    font-weight: 600;
+    color: var(--purple);
+    font-weight: 700;
 }
 
 .nav-item.active i {
-    color: var(--mint);
+    color: var(--purple);
 }
 
 /* Portal Content Space */
