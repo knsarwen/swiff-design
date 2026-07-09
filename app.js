@@ -237,8 +237,200 @@ function hideErrandCreator() {
     document.getElementById("errand-creator").style.display = 'none';
 }
 
+// Mode management
+let currentMode = 'story'; // 'story' or 'sandbox'
+
+function changeMode(mode) {
+    currentMode = mode;
+    
+    // Toggle active state on tab buttons
+    document.getElementById("tab-mode-story").classList.remove("active");
+    document.getElementById("tab-mode-sandbox").classList.remove("active");
+    
+    if (mode === 'story') {
+        document.getElementById("tab-mode-story").classList.add("active");
+        document.getElementById("sidebar-story-section").style.display = 'block';
+        document.getElementById("sidebar-sandbox-section").style.display = 'none';
+        document.getElementById("live-indicator").innerHTML = `<i class="fa-solid fa-circle-play"></i> LIVE SIMULATOR`;
+        document.getElementById("story-navigation-header-buttons").style.display = 'flex';
+        resetSimulation();
+    } else {
+        document.getElementById("tab-mode-sandbox").classList.add("active");
+        document.getElementById("sidebar-story-section").style.display = 'none';
+        document.getElementById("sidebar-sandbox-section").style.display = 'block';
+        document.getElementById("live-indicator").innerHTML = `<i class="fa-solid fa-cubes"></i> SCREEN EXPLORER`;
+        document.getElementById("story-navigation-header-buttons").style.display = 'none';
+        
+        // Default to showing Customer Splash page
+        showSandboxPage('cust-splash');
+    }
+}
+
+// Sandbox Screen Router
+function showSandboxPage(pageKey) {
+    // Reset all directory button states
+    const dirBtns = document.querySelectorAll(".sandbox-item-btn");
+    dirBtns.forEach(btn => btn.classList.remove("active"));
+    
+    // Set clicked button active
+    const targetBtn = Array.from(dirBtns).find(btn => btn.getAttribute("onclick").includes(pageKey));
+    if (targetBtn) targetBtn.classList.add("active");
+
+    // Hide all profile cards, login screens, auth layers
+    hideAllCustomPages();
+
+    if (pageKey.startsWith('cust-')) {
+        switchView('customer-app');
+        document.getElementById("current-story-title").innerText = "Customer Screen Explorer";
+    } else if (pageKey.startsWith('run-')) {
+        switchView('runner-app');
+        document.getElementById("current-story-title").innerText = "Rider Screen Explorer";
+    } else if (pageKey.startsWith('admin-')) {
+        switchView('admin-portal');
+        document.getElementById("current-story-title").innerText = "Admin Portal Explorer";
+    }
+
+    switch (pageKey) {
+        // Customer Pages
+        case 'cust-splash':
+            document.getElementById("customer-splash").style.display = 'flex';
+            document.getElementById("customer-splash").style.opacity = 1;
+            document.getElementById("current-story-desc").innerText = "App Splash Page: Renders brand wordmark and loading spinner.";
+            break;
+        case 'cust-login':
+            document.getElementById("cust-page-login").style.display = 'flex';
+            document.getElementById("current-story-desc").innerText = "Phone Verification Screen: Users register or login using their phone number.";
+            break;
+        case 'cust-dashboard':
+            document.getElementById("cust-page-dashboard").style.display = 'block';
+            document.getElementById("current-story-desc").innerText = "Main Dashboard Home: Quick links to hyperlocal errands & wallet details.";
+            break;
+        case 'cust-form':
+            document.getElementById("cust-page-dashboard").style.display = 'block';
+            document.getElementById("errand-creator").style.display = 'flex';
+            document.getElementById("current-story-desc").innerText = "Errand Creator: Detail pickup & delivery locations, item information, and estimate cost.";
+            break;
+        case 'cust-matching':
+            document.getElementById("cust-page-dashboard").style.display = 'block';
+            document.getElementById("customer-tracking").style.display = 'flex';
+            document.getElementById("tracking-status-text").innerText = "Searching for nearby runners...";
+            document.getElementById("customer-runner-card").style.display = 'none';
+            document.getElementById("current-story-desc").innerText = "Matching Screen: Real-time search radar scanning for nearby active riders.";
+            break;
+        case 'cust-tracking':
+            document.getElementById("cust-page-dashboard").style.display = 'block';
+            document.getElementById("customer-tracking").style.display = 'flex';
+            document.getElementById("customer-runner-card").style.display = 'flex';
+            document.getElementById("cust-map-runner").style.display = 'block';
+            document.getElementById("tracking-status-text").innerText = "Faiz is purchasing your items...";
+            document.getElementById("current-story-desc").innerText = "Active Delivery Map Tracker: Displays rider details, chat options, and route path.";
+            break;
+        case 'cust-rating':
+            document.getElementById("cust-page-dashboard").style.display = 'block';
+            document.getElementById("rating-panel").style.display = 'flex';
+            document.getElementById("current-story-desc").innerText = "Fulfillment Done & Review Screen: Released cash escrow statement & stars rating.";
+            break;
+        case 'cust-profile':
+            document.getElementById("cust-page-dashboard").style.display = 'block';
+            document.getElementById("customer-profile-screen").style.display = 'flex';
+            document.getElementById("current-story-desc").innerText = "Customer Profile screen: Displays name, address registry, and Swiff wallet card.";
+            break;
+
+        // Runner Pages
+        case 'run-splash':
+            document.getElementById("runner-splash").style.display = 'flex';
+            document.getElementById("runner-splash").style.opacity = 1;
+            document.getElementById("current-story-desc").innerText = "Rider Splash Screen: Launcher page for the driver-only application.";
+            break;
+        case 'run-register':
+            document.getElementById("run-page-register").style.display = 'flex';
+            document.getElementById("current-story-desc").innerText = "Rider Application: Uploading NRIC (identity verification) and Class Driving License.";
+            break;
+        case 'run-deposit':
+            document.getElementById("run-page-deposit").style.display = 'flex';
+            document.getElementById("current-story-desc").innerText = "Onboarding checklist: uniform sizing collection & training confirmation.";
+            break;
+        case 'run-radar':
+            document.getElementById("run-page-main").style.display = 'block';
+            document.getElementById("runner-wait-panel").style.display = 'flex';
+            document.getElementById("current-story-desc").innerText = "Online Dashboard: Active search radar scanning for nearby micro-errands.";
+            break;
+        case 'run-offer':
+            document.getElementById("run-page-main").style.display = 'block';
+            document.getElementById("runner-wait-panel").style.display = 'none';
+            document.getElementById("runner-job-offer").style.display = 'flex';
+            document.getElementById("current-story-desc").innerText = "Incoming Errand Sheet: Accept/Decline details of the nearby job matches.";
+            break;
+        case 'run-active':
+            document.getElementById("run-page-main").style.display = 'block';
+            document.getElementById("runner-active-job-panel").style.display = 'flex';
+            document.getElementById("current-story-desc").innerText = "Rider Task Map: Displays pickup route, item checklists, and completion triggers.";
+            break;
+        case 'run-earnings':
+            document.getElementById("run-page-main").style.display = 'block';
+            document.getElementById("runner-earnings-screen").style.display = 'flex';
+            document.getElementById("current-story-desc").innerText = "Rider Statements: Today's withdrawal wallet balance & historical jobs summary.";
+            break;
+        case 'run-profile':
+            document.getElementById("run-page-main").style.display = 'block';
+            document.getElementById("runner-profile-screen").style.display = 'flex';
+            document.getElementById("current-story-desc").innerText = "Rider Profile: Vehicle details, active zone registration, and status.";
+            break;
+
+        // Admin Web Portal
+        case 'admin-map':
+            showPortalTab('admin-dashboard');
+            document.getElementById("current-story-desc").innerText = "Real-time dispatch map view, utilization stats, and active transaction listings.";
+            break;
+        case 'admin-onboard':
+            showPortalTab('runner-onboard');
+            document.getElementById("current-story-desc").innerText = "Background Checks Queue: Verification status of candidate documents & uniforms.";
+            break;
+        case 'admin-escrow':
+            showPortalTab('disputes-tab');
+            document.getElementById("current-story-desc").innerText = "Escrow Ledger: Security trust hold status for payments and dispute handlers.";
+            break;
+        case 'admin-settle':
+            showPortalTab('analytics-tab');
+            document.getElementById("current-story-desc").innerText = "Analytics & Wallet settlements: monthly revenue splitting (80%-20%) graphs.";
+            break;
+    }
+}
+
+// Sandbox Navigation Helper
+function goToRunnerStage(stageKey) {
+    if (currentMode === 'sandbox') {
+        showSandboxPage('run-' + stageKey);
+    }
+}
+
+function exitAuth(userType) {
+    if (currentMode === 'sandbox') {
+        if(userType === 'customer') showSandboxPage('cust-dashboard');
+    }
+}
+
+function hideAllCustomPages() {
+    // Hide screens Customer
+    document.getElementById("customer-splash").style.display = 'none';
+    document.getElementById("cust-page-login").style.display = 'none';
+    document.getElementById("errand-creator").style.display = 'none';
+    document.getElementById("customer-tracking").style.display = 'none';
+    document.getElementById("rating-panel").style.display = 'none';
+    document.getElementById("customer-profile-screen").style.display = 'none';
+
+    // Hide screens Runner
+    document.getElementById("runner-splash").style.display = 'none';
+    document.getElementById("run-page-register").style.display = 'none';
+    document.getElementById("run-page-deposit").style.display = 'none';
+    document.getElementById("runner-profile-screen").style.display = 'none';
+    document.getElementById("runner-earnings-screen").style.display = 'none';
+}
+
 // Sandbox Screen preview handler
 function enterSandbox(screenName) {
+    if (currentMode === 'sandbox') return;
+    
     // Reset any active story classes
     const steps = document.querySelectorAll(".story-step");
     steps.forEach(st => st.classList.remove("active"));
@@ -249,7 +441,6 @@ function enterSandbox(screenName) {
         if(splash) {
             splash.style.display = 'flex';
             splash.style.opacity = 1;
-            // Hide after 3 seconds in sandbox mode
             setTimeout(() => {
                 splash.style.opacity = 0;
                 setTimeout(() => { splash.style.display = 'none'; }, 500);
@@ -272,6 +463,8 @@ function exitSandbox() {
 
 // Story Tracker navigation
 function jumpToStep(stepIndex) {
+    if (currentMode === 'sandbox') return;
+    
     // Ensure sandbox profiles are closed
     document.getElementById("customer-profile-screen").style.display = 'none';
     document.getElementById("runner-profile-screen").style.display = 'none';
